@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherMind | Advanced LangGraph Chatbot</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar for LangGraph Workflow Status -->
+        <aside class="sidebar-panel">
+            <div class="sidebar-header">
+                <div class="logo-glow"></div>
+                <h1 class="logo-text">Aether<span>Mind</span></h1>
+            </div>
+            
+            <div class="graph-viz-container">
+                <h3 class="panel-title">LangGraph Execution Flow</h3>
+                <p class="panel-desc">Watch active state graph nodes process your query in real-time.</p>
+                
+                <div class="flow-nodes">
+                    <!-- Classify Node -->
+                    <div class="flow-node" id="node-classify">
+                        <div class="node-indicator"></div>
+                        <div class="node-info">
+                            <span class="node-name">classify</span>
+                            <span class="node-status">Idle</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-connector">
+                        <div class="connector-line"></div>
+                    </div>
+                    
+                    <!-- Respond Node -->
+                    <div class="flow-node" id="node-respond">
+                        <div class="node-indicator"></div>
+                        <div class="node-info">
+                            <span class="node-name">respond</span>
+                            <span class="node-status">Idle</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="execution-details" id="execution-details">
+                    <span class="detail-label">Last Classified Intent:</span>
+                    <span class="detail-value" id="intent-value">None</span>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="status-badge">
+                    <span class="status-dot online"></span>
+                    <span>Gemini-2.5-Flash Online</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-panel">
+            <!-- Top Nav Bar -->
+            <header class="chat-header">
+                <div class="chat-title-info">
+                    <h2>Chat Assistant</h2>
+                    <p class="chat-subtitle">StateGraph router powered by Google Gemini</p>
+                </div>
+                <div class="header-actions">
+                    <button class="action-btn" id="clear-btn" title="Clear Conversation">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2M10 11v6M14 11v6"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Conversation Messages -->
+            <div class="messages-container" id="messages-container">
+                <!-- Welcome Message -->
+                <div class="message-wrapper bot-message">
+                    <div class="avatar">🤖</div>
+                    <div class="message-bubble">
+                        <p>Welcome! I'm <strong>AetherMind</strong>, a chatbot powered by Flask, LangGraph, and Gemini. I classify user intents and route responses through a state machine graph.</p>
+                        <p>Ask me anything or try one of the suggested prompts below!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Suggestions -->
+            <div class="suggestions-container">
+                <button class="suggest-btn">👋 Say Hello</button>
+                <button class="suggest-btn">🧠 Explain LangGraph</button>
+                <button class="suggest-btn">🌌 What is Dark Matter?</button>
+                <button class="suggest-btn">⚡ Flask Server Setup</button>
+            </div>
+
+            <!-- Message Input Area -->
+            <footer class="input-container">
+                <form id="chat-form" class="chat-form">
+                    <input 
+                        type="text" 
+                        id="user-input" 
+                        placeholder="Ask AetherMind a question..." 
+                        autocomplete="off" 
+                        required
+                    />
+                    <button type="submit" id="send-btn" class="send-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="none" d="M0 0h24v24H0z"/>
+                            <path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"/>
+                        </svg>
+                    </button>
+                </form>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Client-side JS Script -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
